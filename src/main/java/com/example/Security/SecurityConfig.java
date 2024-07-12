@@ -34,26 +34,25 @@ public class SecurityConfig  {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("filterchain///////////");
-
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(expressionInterceptUrlRegistry ->
                         expressionInterceptUrlRegistry
-                                .requestMatchers("/api/users/user").permitAll() // Ensure this matches the controller endpoint
-                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/api/users/login").permitAll()
+                                .requestMatchers("/api/users/user").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .formLogin(formLogin ->formLogin.disable()); // Disable default login form
+                .formLogin(formLogin -> formLogin.disable());
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        System.out.println("///////////authmanager");
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
+
 }

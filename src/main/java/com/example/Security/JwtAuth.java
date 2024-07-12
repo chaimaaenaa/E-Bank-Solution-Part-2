@@ -15,7 +15,8 @@ public class JwtAuth {
     public static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public static String generateToken(String username) {
-        System.out.println("///////////////////"+username+"333333 GENERATETOKEN JWTAUTH");
+        System.out.println("///////////////////");
+        System.out.println("//////////////"+username);
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
