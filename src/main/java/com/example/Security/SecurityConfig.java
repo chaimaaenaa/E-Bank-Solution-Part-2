@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.sql.DataSource;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  {
@@ -31,40 +32,28 @@ public class SecurityConfig  {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public JdbcUserDetailsManager jdbcUserDetailsManager() {
-//        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager();
-//        userDetailsManager.setDataSource(dataSource);
-//        userDetailsManager.setUsersByUsernameQuery("SELECT username, password, TRUE as enabled FROM users WHERE username = ?");
-//        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, 'ROLE_USER' FROM users WHERE username = ?");
-//        return userDetailsManager;
-//    }
-
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("filtercjain///////////");
+        System.out.println("filterchain///////////");
 
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(expressionInterceptUrlRegistry ->
                         expressionInterceptUrlRegistry
-                                .requestMatchers("/user").permitAll()
-                                .requestMatchers("/login").permitAll() // Permettre l'accès à l'endpoint /login
+                                .requestMatchers("/api/users/user").permitAll() // Ensure this matches the controller endpoint
+                                .requestMatchers("/login").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .formLogin(formLogin ->formLogin.disable());// Désactiver le formulaire de login par défaut de Spring Security
-                 http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .formLogin(formLogin ->formLogin.disable()); // Disable default login form
+        http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        System.out.println("///////////athhmanager");
+        System.out.println("///////////authmanager");
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
- }
-
+}
