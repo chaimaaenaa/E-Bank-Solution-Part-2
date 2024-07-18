@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.example.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class Account {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ebank.entity.AccountType accountType;
+    private AccountType accountType;
 
     private Double balance;
 

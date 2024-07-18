@@ -16,16 +16,16 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/{userId}")
+    @PostMapping("/add/{userId}")
     public ResponseEntity<Account> createAccount(@PathVariable Long userId, @RequestBody Account account) {
         Account createdAccount = accountService.createAccount(userId, account);
         return ResponseEntity.ok(createdAccount);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Account> getAccountById(@PathVariable Long id) {
-        Account account = accountService.getAccountById(id);
-        return ResponseEntity.ok(account);    }
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<Account>> getAccountsById(@PathVariable Long id) {
+        List<Account> accounts = accountService.getAccountById(id);
+        return ResponseEntity.ok(accounts);    }
 
     @GetMapping
     public ResponseEntity<List<Account>> getAllAccounts() {

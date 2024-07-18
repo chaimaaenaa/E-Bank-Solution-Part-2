@@ -28,8 +28,8 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    public Account getAccountById(Long id) {
-        return accountRepository.findById(id).get();
+    public List<Account> getAccountById(Long id) {
+        return accountRepository.findByUserId(id);
     }
 
     public List<Account> getAllAccounts() {

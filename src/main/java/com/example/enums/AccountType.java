@@ -1,4 +1,4 @@
-package ebank.entity;
+package com.example.enums;
 
 public enum AccountType {
     COURANT,
